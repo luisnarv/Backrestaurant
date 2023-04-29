@@ -21,46 +21,59 @@ const cors = require('cors')
 const fileUpload = require('express-fileupload')
 
 //para las rutas 
-const routes = require("./routes/index.js")
+const routes = require("./routes/index.js");
 
 // create server
-const server = express()
+const app  = express()
 
 // name server
-server.name = 'API'
+app.name = 'API'
+
 
 //server middlewares
-server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
-server.use(bodyParser.json({ limit: '50mb' }))
-server.use(cookieParser())
-server.use(morgan('dev'))
-server.use(cors())
-server.use(fileUpload({
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
+app.use(bodyParser.json({ limit: '50mb' }))
+app.use(cookieParser())
+app.use(morgan('dev'))
+app.use(cors())
+app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: '/tmp/',
   createParentPath: true
 }))
+/* -------------------------------------------------------------*/
 
 
-//  app.listen(3000, () => {
-//     console.log('Servidor escuchando en el puerto 3000');
-//    });
+/* -------------------------------------------------------------*/
 
-
-
-
-server.use('/', routes)
-
+app.use('/', routes)
 // error catching endware.
-server.use((err, req, res, next) => {
+app.use((err, req, res, next) => {
   const status = err.status || 500
   const message = err.message || err
   console.error(err)
   res.status(status).send(message)
 })
-
 // server export
-module.exports = server
+module.exports = app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // server.get('/', (req, res) => {
@@ -77,3 +90,8 @@ module.exports = server
   
 // // Exportar instancia de la aplicación de Express
 // module.exports = server
+
+
+
+
+

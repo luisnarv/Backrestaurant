@@ -3,7 +3,8 @@ require('dotenv').config()
 
 const sequelize = require("./src/db.js")
 const server = require("./src/server.js")
-const mongo = require("./src/dbMongo.js")
+const servidor = require("./src/websoket.js")
+//const mongoose = require("./src/dbMongo.js")
 // environment variables
 const { PORT, DB_FORCE } = process.env
 // server listening
@@ -12,10 +13,12 @@ sequelize.sync({ force: DB_FORCE ? true : false }).then(() => {
     server.listen(PORT, () => {
         console.log(`server listening on port ${PORT}`)
     })
+    servidor.listen(3000,() => {
+        console.log(`server listening on port 3000`)})
 }).catch((error) => console.log(error.message))
 
 
-mongo.connectToDatabase();
+//mongoose.connectToDatabase();
 
 //  var express = require("express");
 //  var app = express();
