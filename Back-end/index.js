@@ -5,6 +5,7 @@ const sequelize = require("./src/db.js")
 const server = require("./src/server.js")
 const servidor = require("./src/websoket.js")
 //const mongoose = require("./src/dbMongo.js")
+
 // environment variables
 const { PORT, DB_FORCE } = process.env
 // server listening
@@ -15,20 +16,21 @@ sequelize.sync({ force: DB_FORCE ? true : false }).then(() => {
     })
     servidor.listen(3000,() => {
         console.log(`server listening on port 3000`)})
-}).catch((error) => console.log(error.message))
+}).catch((error) => console.log("error2023",error.message))
 
 
 //mongoose.connectToDatabase();
 
-//  var express = require("express");
-//  var app = express();
- 
-// app.get("/",function(req, res){
-// res.send("hello world!");
-// });
-// app.listen(3000, function(){
-//     console.log("listening on port 3000!")
-// })
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -11,6 +11,7 @@ const empleados = require('./models/empleados')
 const menu = require('./models/menu')
 const ordenes = require('./models/ordenes')
 const role = require("./models/rol")
+const chat = require ("./models/chat")
 
 
 //conexión a DB
@@ -26,10 +27,11 @@ empleados(sequelize)
 menu(sequelize)
 ordenes(sequelize)
 role(sequelize)
+chat(sequelize)
 
 //modelos en destructuring
 const {
-  Clientes, Bebida, Menu, Ordenes, Empleados, Role
+  Clientes, Bebida, Menu, Ordenes, Empleados, Role,Chat
 } = sequelize.models
 
 //relaciones 

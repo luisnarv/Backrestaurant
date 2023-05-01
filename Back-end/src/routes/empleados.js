@@ -44,8 +44,8 @@ router.post("/new", [
     body('email', 'Apellido debe ser de 2 a 25 caracteres de largo').isLength({ min: 2, max: 25 }),
 
     validatereq,
-    validateJWT,
-    validateAdmin
+   // validateJWT,
+  //  validateAdmin
 ], createhandller)
 
 router.post("/login", [

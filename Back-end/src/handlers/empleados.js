@@ -29,8 +29,9 @@ const loginhandller = async (req, res) => {
     const {name, password }= req.body
 
     try {
-         const empl = await login(name, password)
-    res.status(200).json(empl)
+         const {token, user} = await login(name, password)
+         res.header('Access-Control-Expose-Headers', 'token')
+         res.status(200).header("token", token).json({user})
     } catch (error) {
         res.status(400).json({error: error.message})
     }

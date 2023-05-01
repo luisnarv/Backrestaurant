@@ -1,5 +1,12 @@
 const http = require('http');
 const WebSocketServer = require('websocket').server;
+const jwt = require('jsonwebtoken')
+const { models } = require("./db");
+const { Chat } = models
+
+
+// Tabla que asocia ID de usuario con conexión WebSocket
+const connections = [];
 
 const servidor = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -14,88 +21,85 @@ const wsServer = new WebSocketServer({
 wsServer.on('connect', (connection) => {
   console.log('Client connected!');
 
+
   connection.on('message', (message) => {
-    console.log('Received message:', message.utf8Data);
+    const data = JSON.parse(message.utf8Data);
+    // Obtener el ID de usuario del mensaje 
+    const ID = data.token;
+    // Obtener el texto del mensaje
+    const content = data.message;
 
-    const reply = {
-      sender: 'servidor',
-      recipient: 'John',
-      text: 'Hello John!'
-    };
+    const destino = data.destino
 
-    connection.sendUTF(JSON.stringify(reply));
+
+
+    // Verificar la firma del token
+    let ed;
+    try {
+      const { id } = jwt.verify(ID, process.env.SECRET_JWT_KEY)
+      ed = id
+      // console.log("este es verificacion del token", ed)
+      // console.log("todo bien todo correcto y yo que me alegro ")
+    } catch (error) {
+      console.log(error)
+    }
+
+
+
+    addConnection(ed, connection);
+
+    //console.log("conection------------------->", connections)
+    // Buscar la conexión del cliente destinatario
+
+
+    const connectionDestino = connections.find(conn => conn.userID === destino);
+    if (connectionDestino) {
+      // Enviar la respuesta al cliente destinatario con el contenido del mensaje
+      const response = {
+        mensaje: content,
+        remitente: ed,
+        destinatario: destino
+      };
+
+      connectionDestino.connection.send(JSON.stringify(response));
+    } else {
+      console.log(`No se encontró la conexión para el cliente ${destino}`);
+    }
+
+
+
+    const create = async (ed, content, destino) => {
+      const newchat = await Chat.create({
+        mensaje: content, remitente: ed, destinatario: destino
+      });
+      //console.log("nuevo chat------------------------->>",newchat)
+      return newchat;
+    }
+    create(ed, content, destino)
+    // console.log("data", data)
+    // console.log("userid", ID)
+    // console.log("mensage.text", content)
+
+    // connection.sendUTF(JSON.stringify(reply));
+
   });
+
+
+  connection.on('error', (error) => {
+    console.log('Connection error:', error);
+  });
+
+
+
 });
 
+// Función para agregar una conexión WebSocket a la tabla de conexiones
+// function addConnection(id, connection) {
+//   connections[id] = connection;
+// }
+
+
+function addConnection(id, connection) {
+  connections.push({ userID: id, connection: connection });
+}
 module.exports = servidor
-
-
-
-
-
-
-// const server = http.createServer(app);
-// //const wss = new WebSocket.Server({ server });
-
-
-// // const servidor = http.createServer((req, res)=>{
-// //   res.writeHead(200, { 'Content-Type': 'text/plain' });
-// //   res.end('Servidor creado!\n', );
-// // });
-// // Crear instancia del servidor WebSocket y pasarle el servidor HTTP
-// servidor.listen(3000, () => {
-//   console.log('HTTP server listening on port 3000')
-// });
-// const wsServer = new WebSocket({
-//   httpServer: servidor,
-// });
-// // httpServer.listen(3000, () => {
-// //   console.log('HTTP server listening on port 3000')
-// // });
-
-
-
-
-
-// wsServer.on('request', (req) => {
-//   const connection = req.accept(null, req.origin);
-//   console.log(connection)
-
-// req.on('message', (message) => {
-//   console.log('Received message:', message.utf8Data);
-// })
-//   connection.on('message', (message) => {
-//     console.log('Received message:', message.utf8Data);
-//     // Lógica para procesar el mensaje recibido
-//   });
-
-
-//   connection.on('close', (reasonCode, description) => {
-//     // Lógica para manejar la desconexión del cliente
-//   });
-//   wss.on('connection', (ws) => {
-//     console.log('Client connected');
-    
-//     ws.on('message', (message) => {
-//       console.log(`Received message: ${message}`);
-//       ws.send(`You sent: ${message}`);
-//     });
-    
-//     ws.on('close', () => {
-//       console.log('Client disconnected');
-//     });
-//   });
-  
-//   servidor.get('/wb', (req, res) => {
-//     res.send('Hello, worldfsfaaaaaaaasdaasd!');
-//   });
-
- 
-
-// });
-
-// // servidor.listen(3000, () => {
-// //     console.log('HTTP server listening on port 3000')
-// //   });
-
-
