@@ -3,6 +3,7 @@ const { Op } = require('sequelize')
 
 // helpers
 const generateJWT = require('../helpers/generateJsonw')
+const {uploadPhoto} = require ("./img")
 
 // models
 const { models } = require('../db.js')
@@ -83,6 +84,17 @@ const userlogin = async (name, password) => {
 }
 
 
+//load img
+const photoUpload = async (id, file) => {
+    console.log(file)
+    const user = await Clientes.findByPk(id)
+  user.img = await uploadPhoto(file)
+ //const img = await uploadPhoto(file)
+    //console.log("esto es imag",img)
+
+    return await user.save()
+}
+
 module.exports = {
     createUser,
     userAll,
@@ -90,5 +102,5 @@ module.exports = {
     changePass,
     userDelete,
     userlogin,
-
+    photoUpload
 }

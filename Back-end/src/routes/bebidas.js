@@ -26,10 +26,10 @@ router.post("/new", [
     body('category', 'Categoria es obligatorio').not().isEmpty(),
     body('price', 'El precio es obligatorio').not().isEmpty(),
     
-    body('product', 'Product debe ser de 2 a 25 caracteres de largo').isLength({ min: 2, max: 25 }),
-    body('description', 'La Descripción debe ser de 2 a 100 caracteres de largo').isLength({ min: 2, max: 100 }),
-    body('category', 'La Categoria debe ser de 2 a 25 caracteres de largo').isLength({ min: 2, max: 25 }),
-    body('price', 'El precio debe ser de 2 a 25 caracteres de largo').isLength({ min: 2, max: 25 }),
+    body('product', 'Product debe ser de 2 a 50 caracteres de largo').isLength({ min: 2, max: 50 }),
+    body('description', 'La Descripción debe ser de 2 a 500 caracteres de largo').isLength({ min: 2, max: 500 }),
+    body('category', 'La Categoria debe ser de 2 a 50 caracteres de largo').isLength({ min: 2, max: 50 }),
+    body('price', 'El precio debe ser de 2 a 50 caracteres de largo').isLength({ min: 2, max: 50 }),
     validatereq,
     validateJWT,
     validateAdmin

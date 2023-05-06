@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
         },
         edad: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         cargo: {
             type: DataTypes.STRING(50),
@@ -46,7 +46,7 @@ module.exports = (sequelize) => {
         },
         direction: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         phone: {
             type: DataTypes.INTEGER,

@@ -4,11 +4,10 @@ require('dotenv').config()
 const sequelize = require("./src/db.js")
 const server = require("./src/server.js")
 const servidor = require("./src/websoket.js")
-//const mongoose = require("./src/dbMongo.js")
+const mongoose = require("./src/dbMongo.js")
 
-// environment variables
+
 const { PORT, DB_FORCE } = process.env
-// server listening
 sequelize.sync({ force: DB_FORCE ? true : false }).then(() => {
     console.log((`database connection successful`))
     server.listen(PORT, () => {
@@ -19,7 +18,7 @@ sequelize.sync({ force: DB_FORCE ? true : false }).then(() => {
 }).catch((error) => console.log("error2023",error.message))
 
 
-//mongoose.connectToDatabase();
+mongoose.connectToDatabase();
 
 
 

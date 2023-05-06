@@ -13,7 +13,7 @@ const validateAdmin = async (req, res, next) => {
 
     if (!empleado) return res.status(401).json({ msg: 'denegado' })
 
-    empleado.Roles[0].rol !== 'Administrador' ? res.status(401).json({ msg: 'Acceso denegado' })  : next()
+    empleado.Roles[0].rol !== undefined || empleado.Roles[0].rol === 'Administrador' ? next():res.status(401).json({ msg: 'Acceso denegado' }) 
 }
 
 

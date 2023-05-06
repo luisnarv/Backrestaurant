@@ -10,7 +10,7 @@ const { createordenhandller, allhandller, } = require("../handlers/ordenes")
 
 const router = Router()
 
-router.get("/", [
+router.get("/all", [
   header("token", "token es obigatorio").not().isEmpty(),
   validatereq,
   validateJWT,
@@ -20,7 +20,7 @@ router.get("/", [
 
 
 // ClienteId, EmpleadoId, cantidadbebidas, cantidadplatos  , BebidaId, MenuId, mesa, total
-router.post("/create", [
+router.post("/new", [
   header("token", "token es obigatorio").not().isEmpty(),
   body('ClienteId', 'Nombre es obligatorio').not().isEmpty(),
   body('EmpleadoId', 'Empleadoid es obligatorio').not().isEmpty(),

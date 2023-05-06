@@ -1,4 +1,4 @@
-const {create, all, login} = require ("../controllers/empleados")
+const {createADMIN, create, all, login} = require ("../controllers/empleados")
 
 
 
@@ -12,7 +12,19 @@ const allhandller = async ( req, res) =>{
 }
 
 
+const createADMINhandller = async ( req, res) => {
+    const {name, lastname, password, dni,edad, cargo, salario, direction, phone, email, rol} = req.body
 
+    
+    try {    
+        await createADMIN(name, lastname, password, dni,edad, cargo, salario,direction, phone, email, rol);
+        res.status(201).json({ msg: 'Created successfully' })
+     } catch (error) {
+        res.status(400).json({msg: error.message})
+        
+     }
+
+}
 const createhandller = async (req, res) =>{
      const {name, lastname, password, dni, edad, cargo, salario, sex, direction, phone, email, rol} = req.body
 
@@ -27,7 +39,6 @@ const createhandller = async (req, res) =>{
 
 const loginhandller = async (req, res) => {
     const {name, password }= req.body
-
     try {
          const {token, user} = await login(name, password)
          res.header('Access-Control-Expose-Headers', 'token')
@@ -39,6 +50,7 @@ const loginhandller = async (req, res) => {
 }
 
 module.exports = {
+    createADMINhandller,
     createhandller,
     allhandller,
     loginhandller

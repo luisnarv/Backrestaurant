@@ -14,6 +14,7 @@ const {
     userDeletehandler,
     changePasshandler,
     loginHandler,
+    photoUploadhandller
 } = require('../handlers/cliente')
 
 const router = Router()
@@ -26,10 +27,7 @@ router.post("/login", [
 ], loginHandler)
 
 router.get("/all", [
-    header('token', 'Token es obligatorio').not().isEmpty(),
-    validatereq,
-    validateJWT,
-    validateAdmin,
+   
     ],userAllhandler)
 
 
@@ -64,5 +62,11 @@ router.post("/changepass", [
     validatereq,
 ], changePasshandler)
 
+
+
+router.post("/photo",[
+   // body("id", "Se requiere el id").not().isEmpty(),
+    //body("file","Se requiere el archivo").not().isEmpty()
+],photoUploadhandller)
 
 module.exports = router
