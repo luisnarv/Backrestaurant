@@ -8,65 +8,63 @@ const { validateAdmin } = require("../middlewares/validateDb")
 
 // handlers
 const {
-    createUserHandler,
-    userAllhandler,
-    userDetailhandler,
-    userDeletehandler,
-    changePasshandler,
-    loginHandler,
-    photoUploadhandller
+    userallH,
+    createuserH,
+    userdetailH,
+    changepassH,
+    userdeleteH,
+    loginuserH,
+    photoUploaduserH
 } = require('../handlers/cliente')
 
 const router = Router()
 
-
-router.post("/login", [
-    body("name", "name es obligatorio").not().isEmpty(),
-    body("password", "Contraseña es obligatoria ").not().isEmpty(),
-    validatereq,
-], loginHandler)
-
 router.get("/all", [
    
-    ],userAllhandler)
-
+    ],userallH)
 
 router.post('/new', [
     body('password', 'Contraseña es obligatoria').not().isEmpty(),
     body('email', 'Email es obligatorio').not().isEmpty(),
     body('name', 'Nombre es obligatorio').not().isEmpty(),
     body('lastname', 'Apellido es obligatorio').not().isEmpty(),
+    body('dni', 'Numero de documento es obligatorio').not().isEmpty(),
+    body('numphone', 'Numero de teléfono es obligatorio').not().isEmpty(),
     body('email', 'Email debe ser válido').isEmail(),
     body('password', 'Contraseña debe ser de 6 a 25 caracteres de largo').isLength({ min: 6, max: 25 }),
     body('name', 'Nombre debe ser de 2 a 25 caracteres de largo').isLength({ min: 2, max: 25 }),
     body('lastname', 'Apellido debe ser de 2 a 25 caracteres de largo').isLength({ min: 2, max: 25 }),
     body('direction', 'Apellido debe ser de 2 a 25 caracteres de largo').isLength({ min: 2, max: 25 }),
     validatereq
-], createUserHandler)
+], createuserH)
 
 router.get("/detail", [
     validateJWT,
     validatereq,
-], userDetailhandler)
+], userdetailH)
+
+router.post("/login", [
+    body("name", "name es obligatorio").not().isEmpty(),
+    body("password", "Contraseña es obligatoria ").not().isEmpty(),
+    validatereq,
+], loginuserH)
 
 router.delete("/", [
     header('token', 'Token es obligatorio').not().isEmpty(),
     validateJWT,
     validatereq,
-], userDeletehandler)
+], userdeleteH)
 
 router.post("/changepass", [
     header("token", "Token es obligatorio").not().isEmpty(),
     body("password", "Contraseña es obligatoria ").not().isEmpty(),
     validateJWT,
     validatereq,
-], changePasshandler)
+], changepassH)
 
 
 
 router.post("/photo",[
-   // body("id", "Se requiere el id").not().isEmpty(),
-    //body("file","Se requiere el archivo").not().isEmpty()
-],photoUploadhandller)
+],photoUploaduserH)
 
 module.exports = router

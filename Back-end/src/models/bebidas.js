@@ -24,6 +24,10 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        img: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+        },
         deleted: {
             type: DataTypes.BOOLEAN,
             allowNull: true,

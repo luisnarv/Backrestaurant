@@ -35,7 +35,7 @@ module.exports = (sequelize) => {
             allowNull: true
         },
         numphone: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         img: {

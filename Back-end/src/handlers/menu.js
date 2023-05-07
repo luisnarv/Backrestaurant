@@ -1,36 +1,51 @@
-const {allmenu, createmenu, agotado, add} = require("../controllers/menu")
+const {allMenu,
+    createMenu,
+    closedMenu,
+    addMenu,
+    imageMenu} = require("../controllers/menu")
 
 
-const allmenuhandler = async (req , res) =>{
-    const all = await allmenu()
+const allmenuH = async (req , res) =>{
+    const all = await allMenu()
     res.status(200).json(all)
 }
 
-const createmenuhandler = async (req , res) =>{
+const createmenuH = async (req , res) =>{
     const {name, description, category, price } = req.body;
     try {
-        await createmenu(name, description, category, price)
+        await createMenu(name, description, category, price)
         res.status(200).json({msg: 'Created successfully'})
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
 }
 
-const agotadohandller = async (req, res) =>{
+const closedmenuH = async (req, res) =>{
     const {id}= req.body
-    const plato = await agotado(id)
+    const plato = await closedMenu(id)
     res.status(200).json(plato)
 }
-const addhandller = async (req, res) =>{
+const addmenuH = async (req, res) =>{
     const {id}= req.body
-    const plato = await agotado(id)
+    const plato = await addMenu(id)
     res.status(200).json(plato)
 }
 
+const imagemenuH = async (req, res) =>{
+    const {id} = req.body
+    const file = req.files.archivo
+    try {
+        await imageMenu(id, file)
+        res.status(200).json({msg: "Created successfully"})
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
 
 module.exports ={
-    allmenuhandler,
-    createmenuhandler,
-    agotadohandller,
-    addhandller
+    allmenuH,
+    createmenuH,
+    closedmenuH,
+    addmenuH,
+    imagemenuH
 }

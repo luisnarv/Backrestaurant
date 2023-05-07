@@ -3,12 +3,14 @@ RUTAS
 GET /bebidas/all
 POST /bebidas/new
 POST /bebidas/add
+POST /bebidas//image
 DELETE /bebidas
 
 ------------------------Menu------------------------
 GET /comidas/all
 POST /comidas/new
 POST /comidas/add
+POST /comidas//image
 DELETE /comidas
 
 
@@ -25,7 +27,7 @@ DELETE /users
 GET /empleados/all
 POST /empleados/login
 POST /empleados/new
-POST /proveedor/new
+POST /empleados//photo
 POST /producto/new
 POST /empleados/newAdmin
 
@@ -36,3 +38,8 @@ POST /ordenes/new
 
 ------------------------WebSocket------------------------
 wscat -c ws://localhost:3000
+
+------------------------producto------------------------
+POST /producto/new
+------------------------proveedor------------------------
+POST /proveedor/new

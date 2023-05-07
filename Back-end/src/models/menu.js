@@ -20,6 +20,10 @@ module.exports = (sequelize) => {
             type: DataTypes.FLOAT,
             allowNull: false
         },
+        img: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+        },
         category: {
             type: DataTypes.STRING,
             allowNull: false

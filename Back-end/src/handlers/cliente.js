@@ -1,17 +1,23 @@
 
-const { createUser, userAll, userDetail, userDelete, changePass, userlogin, photoUpload
+const {  createUser,
+    userAll,
+    userDetail,
+    changePass,
+    userDelete,
+    userLogin,
+    photoUploadUser
 } = require("../controllers/cliente")
 
 
 
 
 
-const userAllhandler = async (req, res) => {
+const userallH = async (req, res) => {
     const users = await userAll()
     res.status(200).json(users)
 }
 
-const createUserHandler = async (req, res) => {
+const createuserH = async (req, res) => {
     const { name, lastname, dni, email, password, direction, numphone, } = req.body
 
     try {
@@ -23,14 +29,14 @@ const createUserHandler = async (req, res) => {
 }
 
 
-const userDetailhandler = async (req, res) => {
+const userdetailH = async (req, res) => {
     console.log("hol", req.uid)
     const users = await userDetail(req.uid)
 
     res.status(200).json(users)
 }
 
-const changePasshandler = async (req, res) => {
+const changepassH = async (req, res) => {
     try {
         await changePass(req.uid, req.body.password)
 
@@ -40,7 +46,7 @@ const changePasshandler = async (req, res) => {
     }
 }
 
-const userDeletehandler = async (req, res) => {
+const userdeleteH = async (req, res) => {
     try {
         await userDelete(req.uid)
 
@@ -51,11 +57,11 @@ const userDeletehandler = async (req, res) => {
 }
 
 
-const loginHandler = async (req, res) => {
+const loginuserH = async (req, res) => {
     const { name, password } = req.body
 
     try {
-        const { token, user } = await userlogin(name, password)
+        const { token, user } = await userLogin(name, password)
         console.log(token)
         res.header('Access-Control-Expose-Headers', 'token')
         res.status(200).header("token", token).json({ user })
@@ -65,15 +71,11 @@ const loginHandler = async (req, res) => {
 }
 
 
-const photoUploadhandller = async (req, res) =>{
+const photoUploaduserH = async (req, res) =>{
 const {id} = req.body
-const file = req.files.archivo.tempFilePath
-//req.uid, req.files.archivo)
-//console.log(id)
-//console.log("estoe eees file", `\${file}`)
-console.log("estoe s file",file)
+const file = req.files.archivo
 try {
-    await photoUpload(id, file)
+    await photoUploadUser(id, file)
     res.status(200).json({msg: 'Created successfully'})
 } catch (error) {
     res.status(400).json({message: error.message})
@@ -86,11 +88,11 @@ try {
 
 
 module.exports = {
-    createUserHandler,
-    userAllhandler,
-    userDeletehandler,
-    userDetailhandler,
-    changePasshandler,
-    loginHandler,
-    photoUploadhandller
+    userallH,
+    createuserH,
+    userdetailH,
+    changepassH,
+    userdeleteH,
+    loginuserH,
+    photoUploaduserH
 }

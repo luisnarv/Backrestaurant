@@ -5,21 +5,18 @@ const validatereq = require("../middlewares/validatereq")
 const validateJWT = require("../middlewares/jsonwebtoken")
 const { validateAdmin } = require("../middlewares/validateDb")
 
-const { createordenhandller, allhandller, } = require("../handlers/ordenes")
+const {
+  allorderH,
+  createorderH, } = require("../handlers/ordenes")
 
 
 const router = Router()
 
 router.get("/all", [
-  header("token", "token es obigatorio").not().isEmpty(),
-  validatereq,
-  validateJWT,
-  validateAdmin
-], allhandller)
+
+], allorderH)
 
 
-
-// ClienteId, EmpleadoId, cantidadbebidas, cantidadplatos  , BebidaId, MenuId, mesa, total
 router.post("/new", [
   header("token", "token es obigatorio").not().isEmpty(),
   body('ClienteId', 'Nombre es obligatorio').not().isEmpty(),
@@ -29,7 +26,6 @@ router.post("/new", [
   body('mesa', 'Mesa es obligatorio').not().isEmpty(),
   // body('total', 'El precio es obligatorio').not().isEmpty(),
 
-
   body('ClienteId', 'Nombre debe ser de 2 a 25 caracteres de largo').isLength({ min: 2, max: 100 }),
   body('EmpleadoId', 'Nombre debe ser de 2 a 25 caracteres de largo').isLength({ min: 2, max: 100 }),
   body('cantidadbebidas', 'La Categoria debe ser de 2 a 25 caracteres de largo').isLength({ min: 1, max: 100 }),
@@ -38,7 +34,7 @@ router.post("/new", [
   validatereq,
   validateJWT,
   validateAdmin
-], createordenhandller)
+], createorderH)
 
 
 module.exports = router

@@ -8,6 +8,10 @@ module.exports = (sequelize) => {
             allowNull: false,
             primaryKey: true
         },
+        tipo_gasto:{
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         fecha: {
             type: DataTypes.STRING(50),
             allowNull: false

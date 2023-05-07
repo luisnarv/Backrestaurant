@@ -3,7 +3,7 @@ const { Op } = require('sequelize')
 
 // helpers
 const generateJWT = require('../helpers/generateJsonw')
-const {uploadPhoto} = require ("./img")
+const { uploadPhoto } = require("./img")
 
 // models
 const { models } = require('../db.js')
@@ -72,9 +72,10 @@ const userDelete = async (uid) => {
 
 
 //Login de usuario
-const userlogin = async (name, password) => {
+const userLogin = async (name, password) => {
     const user = await Clientes.findOne({ where: { name } })
     const is = await bcrypt.compare(password, user.password)
+    console.log("esto es clave",is)
 
     if (!is) throw new Error("usuario y contraseña no coinciden")
     return ({
@@ -83,15 +84,21 @@ const userlogin = async (name, password) => {
     })
 }
 
+const newToken = async (id) => {
+    const user = await Clientes.findOne({ where: { id } })
+    
+    return ({
+        token: await generateJWT(user.id),
+    })
+}
+
+
 
 //load img
-const photoUpload = async (id, file) => {
+const photoUploadUser = async (id, file) => {
     console.log(file)
     const user = await Clientes.findByPk(id)
-  user.img = await uploadPhoto(file)
- //const img = await uploadPhoto(file)
-    //console.log("esto es imag",img)
-
+    user.img = await uploadPhoto(file)
     return await user.save()
 }
 
@@ -101,6 +108,7 @@ module.exports = {
     userDetail,
     changePass,
     userDelete,
-    userlogin,
-    photoUpload
+    userLogin,
+    photoUploadUser,
+    newToken
 }

@@ -6,17 +6,18 @@ const validateJWT = require("../middlewares/jsonwebtoken")
 const { validateAdmin } = require("../middlewares/validateDb")
 
 //handllers
-const {bebidashandller, createBebidahandller,agotadohandller, addhandller
+const {
+    bebidasH,
+    createbebidaH,
+    closedbebidaH,
+    addbebidaH,
+    imgbebidaH
 } = require("../handlers/bebida")
 
 
 const router = Router()
-//const router = Router()
 
-
-
-
-router.get("/all", bebidashandller)
+router.get("/all", bebidasH)
 
 
 router.post("/new", [
@@ -33,7 +34,7 @@ router.post("/new", [
     validatereq,
     validateJWT,
     validateAdmin
-], createBebidahandller)
+], createbebidaH)
 
 
 router.delete("/",[
@@ -42,7 +43,7 @@ router.delete("/",[
     validatereq,
     validateJWT,
     validateAdmin
-],agotadohandller)
+],closedbebidaH)
 
 router.post("/add",[
     header("token","token es obigatorio").not().isEmpty(),
@@ -50,8 +51,9 @@ router.post("/add",[
     validatereq,
     validateJWT,
     validateAdmin
-],addhandller)
+],addbebidaH)
 
+router.post("/image",imgbebidaH)
 
 
 module.exports = router

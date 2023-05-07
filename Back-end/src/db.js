@@ -43,8 +43,11 @@ const {
 
 //relaciones 
 
-Proveedor.hasMany(Producto)
-Producto.belongsTo(Proveedor) 
+Proveedor.belongsToMany(Producto, {through:"Proveproduct", timestamps: false })
+Producto.belongsToMany(Proveedor, {through:"Proveproduct", timestamps: false })
+
+
+
 
 Clientes.hasMany(Ordenes)
 Ordenes.belongsTo(Clientes)

@@ -1,51 +1,54 @@
-const {models}= require("../db")
+const { models } = require("../db")
 //const {Op} = require ("sequelize")
-const {Menu} = models
+const { Menu } = models
+
+const { uploadPhotoproduct } = require("./img")
 
 
 
-const allmenu = async() => {
-all = await Menu.findAll({where: {deleted : false}});
+const allMenu = async () => {
+    all = await Menu.findAll({ where: { deleted: false } });
 
-return all.map(e =>({
-    id:e.id,
-    product: e.product,
-    description: e.description,
-    price: e.price,
-    category: e.category
-}));
+    return all
 }
 
-const createmenu = async(product, description, category, price) =>{
-    const create = await Menu.create({product, description, category, price});
+const createMenu = async (product, description, category, price) => {
+    const create = await Menu.create({ product, description, category, price });
     return create;
 }
 
-const agotado = async (id) =>{
+const closedMenu = async (id) => {
     const plato = await Menu.findByPk(id)
     try {
         if (plato.deleted === false) {
-        plato.deleted = true
-    }
-    return await plato.save()
-    } catch (error) {
-        return error
-    }
-}
-
-const add = async (id) =>{
-    const plato = await Menu.findByPk(id)
-    try {
-        if (plato.deleted === true){plato.deleted === false}
+            plato.deleted = true
+        }
         return await plato.save()
     } catch (error) {
         return error
     }
 }
 
+const addMenu = async (id) => {
+    const plato = await Menu.findByPk(id)
+    try {
+        if (plato.deleted === true) { plato.deleted === false }
+        return await plato.save()
+    } catch (error) {
+        return error
+    }
+}
+
+const imageMenu = async (id, file) => {
+    const ID = await Menu.findByPk(id)
+    ID.img = await uploadPhotoproduct(file)
+    return await ID.save()
+}
+
 module.exports = {
-    allmenu,
-    createmenu,
-    agotado,
-    add,
+    allMenu,
+    createMenu,
+    closedMenu,
+    addMenu,
+    imageMenu
 }
